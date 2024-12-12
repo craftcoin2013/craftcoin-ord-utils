@@ -1,0 +1,42 @@
+{
+  "name": "craftcoin-ord-utils-v0.0.1",
+  "version": "0.0.1",
+  "description": "Ordinals Utils for CraftCoin",
+  "type": "module",
+  "keywords": [
+    "craftcoin",
+    "keyring"
+  ],
+  "homepage": "https://github.com/unisat-wallet/ord-utils#readme",
+  "bugs": {
+    "url": "https://github.com/unisat-wallet/ord-utils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unisat-wallet/ord-utils.git"
+  },
+  "author": "Kervin",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "/lib"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "bn.js": "5.2.1",
+    "bs58check": "2.1.2",
+    "craftcoinjs-lib": "^0.0.2"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.5",
+    "@types/node": "^20.10.5",
+    "typescript": "latest"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
