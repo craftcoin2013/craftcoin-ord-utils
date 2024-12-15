@@ -7,7 +7,8 @@ interface TxInput {
   data: {
     hash: string;
     index: number;
-    nonWitnessUtxo: Buffer;
+    nonWitnessUtxo?: Buffer;
+    witnessUtxo?: { script: Buffer; value: number };
   };
   utxo: UnspentOutput;
 }
@@ -51,7 +52,14 @@ export function utxoToInput(utxo: UnspentOutput, publicKey: Buffer): TxInput {
     const data: TxInput["data"] = {
       hash: utxo.txId,
       index: utxo.outputIndex,
-      nonWitnessUtxo: Buffer.from(utxo.rawHex, "hex"),
+      ...(utxo.rawHex
+        ? { nonWitnessUtxo: Buffer.from(utxo.rawHex, "hex") }
+        : {
+            witnessUtxo: {
+              script: Buffer.from(utxo.scriptPk, "hex"),
+              value: utxo.satoshis,
+            },
+          }),
     };
     return {
       data,
@@ -61,7 +69,14 @@ export function utxoToInput(utxo: UnspentOutput, publicKey: Buffer): TxInput {
     const data: TxInput["data"] = {
       hash: utxo.txId,
       index: utxo.outputIndex,
-      nonWitnessUtxo: Buffer.from(utxo.rawHex, "hex"),
+      ...(utxo.rawHex
+        ? { nonWitnessUtxo: Buffer.from(utxo.rawHex, "hex") }
+        : {
+            witnessUtxo: {
+              script: Buffer.from(utxo.scriptPk, "hex"),
+              value: utxo.satoshis,
+            },
+          }),
     };
     return {
       data,
@@ -191,13 +206,11 @@ export class OrdTransaction {
 
     psbt.setVersion(1);
     this.inputs.forEach((v, index) => {
-      /*
-      if (v.utxo.addressType === AddressType.P2PKH) {
-        //@ts-ignore
-        psbt.__CACHE.__UNSAFE_SIGN_NONSEGWIT = true;
-      }
-        */
+      //@ts-ignore
+      psbt.__CACHE.__UNSAFE_SIGN_NONSEGWIT = true;
+
       psbt.addInput(v.data);
+
       if (this.enableRBF) {
         psbt.setInputSequence(index, 0xfffffffd); // support RBF
       }
@@ -219,7 +232,6 @@ export class OrdTransaction {
     const psbt1 = await this.createSignedPsbt();
     // this.dumpTx(psbt1);
     this.removeChangeOutput();
-
     // todo: support changing the feeRate
     const txSize = psbt1.extractTransaction().toBuffer().length;
     const fee = txSize * this.feeRate;

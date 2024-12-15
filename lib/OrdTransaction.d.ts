@@ -4,7 +4,11 @@ interface TxInput {
     data: {
         hash: string;
         index: number;
-        nonWitnessUtxo: Buffer;
+        nonWitnessUtxo?: Buffer;
+        witnessUtxo?: {
+            script: Buffer;
+            value: number;
+        };
     };
     utxo: UnspentOutput;
 }
