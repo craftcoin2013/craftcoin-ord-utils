@@ -7,6 +7,6 @@ export declare const calculateFee: (psbt: Psbt, feeRate: number, address: string
 export declare const addPsbtInput: ({ network, psbt, publicKey, utxo, sighashType, }: AddInputProps) => void;
 export declare function getAddressType(addressStr: string, network: Network): AddressType.P2WPKH | AddressType.P2PKH | AddressType.P2TR | undefined;
 export declare const getWintessUtxo: (utxo: UnspentOutputBase, addressType: number | undefined, publicKeyStr: string, network: Network) => {
-    script: Buffer<ArrayBufferLike>;
+    script: Buffer;
     value: number;
 };

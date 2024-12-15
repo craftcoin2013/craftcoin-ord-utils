@@ -39,7 +39,7 @@ export declare enum AddressType {
     M44_P2WPKH = 4,
     M44_P2TR = 5
 }
-export declare const toXOnly: (pubKey: Buffer) => Buffer<ArrayBuffer>;
+export declare const toXOnly: (pubKey: Buffer) => Buffer;
 export declare function utxoToInput(utxo: UnspentOutput, publicKey: Buffer): TxInput;
 export declare class OrdTransaction {
     private inputs;
